@@ -20,24 +20,12 @@ class MailerController < ApplicationController
   end
 
   def health
-    # Verificar que la aplicación esté funcionando
-    begin
-      # Verificar conexión a la base de datos
-      ActiveRecord::Base.connection.execute("SELECT 1")
-      
-      render json: { 
-        status: 'OK', 
-        timestamp: Time.current,
-        database: 'connected',
-        rails_env: Rails.env
-      }
-    rescue => e
-      render json: { 
-        status: 'ERROR', 
-        timestamp: Time.current,
-        error: e.message,
-        rails_env: Rails.env
-      }, status: :service_unavailable
-    end
+    # Healthcheck simple sin dependencias
+    render json: { 
+      status: 'OK', 
+      timestamp: Time.current,
+      rails_env: Rails.env,
+      port: ENV['PORT'] || '3000'
+    }
   end
 end
