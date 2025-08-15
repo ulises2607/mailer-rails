@@ -25,7 +25,7 @@ Rails.application.configure do
   config.assume_ssl = true
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  config.force_ssl = true
+  config.force_ssl = false  # Disabled for Railway compatibility
 
   # Skip http-to-https redirect for the default health check endpoint.
   # config.ssl_options = { redirect: { exclude: ->(request) { request.path == "/up" } } }
@@ -44,11 +44,10 @@ Rails.application.configure do
   config.active_support.report_deprecations = false
 
   # Replace the default in-process memory cache store with a durable alternative.
-  config.cache_store = :solid_cache_store
+  config.cache_store = :memory_store  # Simplified for API-only app
 
-  # Replace the default in-process and non-durable queuing backend for Active Job.
-  config.active_job.queue_adapter = :solid_queue
-  config.solid_queue.connects_to = { database: { writing: :queue } }
+  # Use simple async adapter for jobs instead of Solid Queue
+  config.active_job.queue_adapter = :async
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
@@ -57,8 +56,8 @@ Rails.application.configure do
   # Set host to be used by links generated in mailer templates.
   config.action_mailer.default_url_options = { host: "example.com" }
 
-  Specify outgoing SMTP server. Remember to add smtp/* credentials via rails credentials:edit.
-    config.action_mailer.delivery_method = :smtp
+  # Specify outgoing SMTP server. Remember to add smtp/* credentials via rails credentials:edit.
+  config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     address: ENV['EMAIL_HOST'] || 'mail.institutosancayetanosalta.com',
     port: ENV['EMAIL_PORT']&.to_i || 465,
