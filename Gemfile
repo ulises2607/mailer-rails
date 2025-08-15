@@ -9,6 +9,12 @@ gem "sqlite3", ">= 2.1", group: [:development, :test]
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
 
+# Reduces boot times through caching; required in config/boot.rb
+gem "bootsnap", require: false
+
+# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
+gem "tzinfo-data"
+
 # SMTP configuration for problematic servers
 gem "net-smtp", require: false
 

@@ -3,7 +3,8 @@ nixPkgs = ["postgresql"]
 
 [phases.build]
 cmds = [
-  "bundle install --deployment --without development:test"
+  "bundle install --deployment --without development:test",
+  "bundle exec bootsnap precompile --gemfile"
 ]
 
 [start]
