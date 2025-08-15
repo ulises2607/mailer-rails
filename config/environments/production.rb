@@ -59,17 +59,17 @@ Rails.application.configure do
 
   Specify outgoing SMTP server. Remember to add smtp/* credentials via rails credentials:edit.
     config.action_mailer.delivery_method = :smtp
-    config.action_mailer.smtp_settings = {
-    address: 'mail.institutosancayetanosalta.com',
-    port: 465,
-    user_name: 'tecnico@institutosancayetanosalta.com',
-    password: 'Tco29052022',
+  config.action_mailer.smtp_settings = {
+    address: ENV['EMAIL_HOST'] || 'mail.institutosancayetanosalta.com',
+    port: ENV['EMAIL_PORT']&.to_i || 465,
+    user_name: ENV['EMAIL_USER'] || 'tecnico@institutosancayetanosalta.com',
+    password: ENV['EMAIL_PASS'] || 'Tco29052022',
     authentication: :plain,
-    ssl: true,
+    ssl: ENV['EMAIL_SSL'] == 'true',
     openssl_verify_mode: 'none',
     enable_starttls: false,
-    read_timeout: 60,
-    open_timeout: 60
+    read_timeout: ENV['EMAIL_TIMEOUT']&.to_i || 60,
+    open_timeout: ENV['EMAIL_TIMEOUT']&.to_i || 60
   }  # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
   config.i18n.fallbacks = true

@@ -33,16 +33,16 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address: 'mail.institutosancayetanosalta.com',
-    port: 465,
-    user_name: 'tecnico@institutosancayetanosalta.com',
-    password: 'Tco29052022',
+    address: ENV['EMAIL_HOST'] || 'mail.institutosancayetanosalta.com',
+    port: ENV['EMAIL_PORT']&.to_i || 465,
+    user_name: ENV['EMAIL_USER'] || 'tecnico@institutosancayetanosalta.com',
+    password: ENV['EMAIL_PASS'] || 'Tco29052022',
     authentication: :plain,
-    ssl: true,
+    ssl: ENV['EMAIL_SSL'] == 'true',
     openssl_verify_mode: 'none',
     enable_starttls: false,
-    read_timeout: 60,
-    open_timeout: 60
+    read_timeout: ENV['EMAIL_TIMEOUT']&.to_i || 60,
+    open_timeout: ENV['EMAIL_TIMEOUT']&.to_i || 60
   }
 
   # Make template changes take effect immediately.
